@@ -11,13 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.trino.plugin.cassandra;
+package io.trino.plugin.scylladb;
 
 import com.datastax.driver.core.Cluster;
 import com.google.common.collect.ImmutableList;
 import io.airlift.json.JsonCodec;
 import io.airlift.log.Logger;
 import io.airlift.units.Duration;
+import io.trino.plugin.cassandra.CassandraSession;
+import io.trino.plugin.cassandra.ExtraColumnMetadata;
+import io.trino.plugin.cassandra.ReopeningCluster;
+import io.trino.plugin.cassandra.SizeEstimate;
 import org.testcontainers.containers.GenericContainer;
 
 import java.io.Closeable;
@@ -37,8 +41,10 @@ public class TestingScyllaServer
 {
     private static final Logger log = Logger.get(TestingScyllaServer.class);
 
-    private static final int PORT = 9042;
+    public static final String V4_TAG = "4.5.2";
+    public static final String V3_TAG = "3.0.0";
 
+    private static final int PORT = 9042;
     private static final Duration REFRESH_SIZE_ESTIMATES_TIMEOUT = new Duration(1, MINUTES);
 
     private final GenericContainer<?> container;
@@ -46,7 +52,7 @@ public class TestingScyllaServer
 
     public TestingScyllaServer()
     {
-        this("2.2.0");
+        this(V3_TAG);
     }
 
     public TestingScyllaServer(String version)
