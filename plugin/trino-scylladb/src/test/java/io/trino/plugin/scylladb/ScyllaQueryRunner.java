@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.trino.plugin.cassandra;
+package io.trino.plugin.scylladb;
 
 import com.google.common.collect.ImmutableMap;
 import io.airlift.log.Logger;
@@ -54,8 +54,8 @@ public final class ScyllaQueryRunner
             connectorProperties.putIfAbsent("cassandra.native-protocol-port", Integer.toString(server.getPort()));
             connectorProperties.putIfAbsent("cassandra.allow-drop-table", "true");
 
-            queryRunner.installPlugin(new CassandraPlugin());
-            queryRunner.createCatalog("cassandra", "cassandra", connectorProperties);
+            queryRunner.installPlugin(new ScyllaPlugin());
+            queryRunner.createCatalog("scylladb", "scylladb", connectorProperties);
 
             createKeyspace(server.getSession(), "tpch");
             copyTpchTables(queryRunner, "tpch", TINY_SCHEMA_NAME, createSession("tpch"), tables);
@@ -73,7 +73,7 @@ public final class ScyllaQueryRunner
     public static Session createSession(String schema)
     {
         return testSessionBuilder()
-                .setCatalog("cassandra")
+                .setCatalog("scylladb")
                 .setSchema(schema)
                 .build();
     }

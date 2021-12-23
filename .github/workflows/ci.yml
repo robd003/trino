@@ -293,7 +293,7 @@ jobs:
             !:trino-tests,
             !:trino-raptor-legacy,
             !:trino-accumulo,
-            !:trino-cassandra,
+            !:trino-cassandra,!:trino-scylladb,
             !:trino-clickhouse,
             !:trino-hive,!:trino-orc,!:trino-parquet,
             !:trino-mongodb,!:trino-kafka,!:trino-elasticsearch,
@@ -337,7 +337,7 @@ jobs:
           - ":trino-tests"
           - ":trino-raptor-legacy"
           - ":trino-accumulo"
-          - ":trino-cassandra"
+          - ":trino-cassandra,:trino-scylladb"
           - ":trino-clickhouse"
           - ":trino-hive,:trino-orc"
           - ":trino-hive,:trino-parquet -P test-parquet"
